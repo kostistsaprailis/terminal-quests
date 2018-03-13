@@ -32,6 +32,8 @@ class World(object):
     def update_world(self):
         self.hero.update_hero()
         self.map_l1[self.hero.oldX, self.hero.oldY] = 0.0
+        if self.map_l1[self.hero.posX, self.hero.posY] == 3.0:
+            self.hero.energy += 52
         self.map_l1[self.hero.posX, self.hero.posY] = 2.0
         self.print_map()
 
@@ -49,19 +51,21 @@ class World(object):
             for j in range(self.window):
                 if self.map_l1[startX + i, startY + j] == 1.0:
                     # self.p_map += u"\U0001F332"
-                    cprint("\U0001F332", 'green', end='')
+                    cprint(" \U0001F332 ", 'green', end='')
                 elif self.map_l1[startX + i, startY + j] == 2.0:
                     self.p_map += "⛹"
-                    cprint('⛹', end='')
+                    cprint(' ⛹ ', end='')
                 elif self.map_l1[startX + i, startY + j] == 3.0:
                     # self.p_map += u"\u4E35"
-                    cprint("\u4E35", 'magenta', end='')
+                    cprint(" \u4E35", 'magenta', end='')
                 elif self.map_l0[startX + i, startY + j] == 0.0:
                     # self.p_map += '.'
-                    cprint(".", 'green', end='')
+                    cprint(" . ", 'green', end='')
             # cprint(self.p_map, 'green')
             cprint('')
             self.p_map = ''
         print('(',startX,',',startY,')')
         print('Hero cur:', self.hero.posX, self.hero.posY)
         print('Hero prev:', self.hero.oldX, self.hero.oldY)
+        print('Hero health: {:2d}/{:2d}'.format(self.hero.health, self.hero.max_health))
+        print('Hero energy: {:3d}/{:3d}'.format(self.hero.energy, self.hero.max_energy))
