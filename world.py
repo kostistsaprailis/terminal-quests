@@ -9,8 +9,8 @@ class World(object):
 
         self.size = settings['size']
         self.window = settings['window']
-        self.map_l0 = np.zeros((settings['size'],settings['size']))
-        self.map_l1 = np.zeros((settings['size'],settings['size']))
+        self.map_l0 = np.zeros((settings['size'],settings['size']), dtype=int)
+        self.map_l1 = np.zeros((settings['size'],settings['size']), dtype=int)
         self.p_map = ''
         self._generate_trees()
         self._generate_grass()
@@ -18,12 +18,12 @@ class World(object):
     def _generate_trees(self):
         for i in range(self.size * 5):
             treeX, treeY = int(np.random.rand() * self.size), int(np.random.rand() * self.size)
-            self.map_l1[treeX, treeY] = 1.0
+            self.map_l1[treeX, treeY] = 1
 
     def _generate_grass(self):
         for i in range(self.size * 5):
             treeX, treeY = int(np.random.rand() * self.size), int(np.random.rand() * self.size)
-            self.map_l1[treeX, treeY] = 3.0
+            self.map_l1[treeX, treeY] = 3
 
     def add_hero(self, hero):
         self.hero = hero
@@ -35,6 +35,8 @@ class World(object):
         if self.map_l1[self.hero.posX, self.hero.posY] == 3.0:
             self.hero.energy += 52
         self.map_l1[self.hero.posX, self.hero.posY] = 2.0
+        # self.map_l1[self.hero.oldX, self.hero.oldY] = 0
+        # self.map_l1[self.hero.posX, self.hero.posY] = 2
         self.print_map()
 
     def print_map(self):
@@ -49,7 +51,7 @@ class World(object):
         print('\033[1;1H')
         for i in range(self.window):
             for j in range(self.window):
-                if self.map_l1[startX + i, startY + j] == 1.0:
+                if self.map_l1[startX + i, startY + j] == 1:
                     # self.p_map += u"\U0001F332"
                     cprint(" \U0001F332 ", 'green', end='')
                 elif self.map_l1[startX + i, startY + j] == 2.0:
